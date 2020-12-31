@@ -19,6 +19,7 @@ def pdf_folder_to_text_files(path):
         print("|",end="")
         txt_name = pdf_name.replace(".pdf",".txt")
         
+        # process single pdf file
         raw_text_file = open(new_folder + "/" + txt_name,"w")
         text = pdf_to_raw(path + "/" + pdf_name)
         raw_text_file.write(text)
