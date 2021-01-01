@@ -13,19 +13,18 @@ def pdf_folder_to_text_files(path):
     new_folder = path.replace("lyrics-pdf", "lyrics-text")
     os.mkdir(new_folder)
     
-    print("{",end="")
     # create a corresponding raw text file for each pdf
     for pdf_name in os.listdir(path):
-        print("|",end="")
+        print("Converting {}... ".format(pdf_name), end="")
         txt_name = pdf_name.replace(".pdf",".txt")
         
         # process single pdf file
-        raw_text_file = open(new_folder + "/" + txt_name,"w")
-        text = pdf_to_raw(path + "/" + pdf_name)
-        raw_text_file.write(text)
-        raw_text_file.close()
-    print("}")
-    
+        with open(new_folder + "/" + txt_name, "w", encoding='utf-8') as raw_text_file:
+            text = pdf_to_raw(path + "/" + pdf_name)
+            raw_text_file.write(text)
+        print("done")
+        
+    print()        
     print("Finished!")
         
     
@@ -33,7 +32,7 @@ def pdf_folder_to_text_files(path):
 # pdf_to_raw
 # use path to pdf file, get raw text using PyPDF
 def pdf_to_raw(path):
-    pdf = PdfFileReader(path)
+    pdf = PdfFileReader(path, strict=False)
     full_text = "" #fill this with each page's content
     
     for i in range(pdf.getNumPages()):
